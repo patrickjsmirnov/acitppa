@@ -1,0 +1,42 @@
+{
+  "name": "acitppa",
+  "version": "1.0.0",
+  "description": "acitppa",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "start:dev": "webpack-dev-server"
+  },
+  "author": "Dima Smirnov",
+  "license": "ISC",
+  "repository": {
+    "type": "git"
+  },
+  "dependencies": {
+    "@babel/core": "^7.0.0-beta.44",
+    "@babel/preset-env": "^7.0.0-beta.44",
+    "babel-loader": "^8.0.0-beta.2",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "react-recaptcha": "^2.3.8",
+    "react-router-dom": "^4.3.1"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.0.0-beta.44",
+    "autoprefixer": "^8.2.0",
+    "babel-preset-stage-1": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "postcss-loader": "^2.1.3",
+    "precss": "^3.1.2",
+    "redux": "^4.0.0",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
+    "webpack-dev-middleware": "^3.1.2",
+    "webpack-dev-server": "^3.1.4"
+  }
+}
