@@ -1,10 +1,15 @@
+
 import React, { Component } from 'react';
 import Recaptcha from 'react-recaptcha';
+import { connect } from "react-redux";
+import store from "../../store";
+import { logged, setToken, setEmail, setPassword, setGrecaptcha } from "../../actions";
 
 class Login extends Component {
-    
+
     constructor(props) {
         super(props);
+
         this.state = {
             email: '',
             password: '',
@@ -14,52 +19,49 @@ class Login extends Component {
         this.recaptchaInstance;
     }
 
+    componentWillMount() {
+        const token = localStorage.getItem('token');
+        if (token) {
+            store.dispatch(logged(true));
+        }
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.recaptchaInstance.execute();
-        console.log('handleSubmit');
     }
 
     hundleInputChange = (field, e) => {
         if (field === 'email') {
-            this.setState({
-                email: e.target.value
-            });
+            this.setState({email: e.target.value});
             return;
         }
-        this.setState({
-            password: e.target.value
-        });
+        this.setState({password: e.target.value})
     }
 
     verifyCallback = (response) => {
-        console.log('verifycallback');
         if (response) {
-            
-            console.log('response = ', response);
 
-            this.setState({
-                grecaptcha: response
-            });
+            this.setState({grecaptcha: response})
 
             const requestOptions = {
                 method: 'POST', 
                 mode: 'cors',
                 headers: {
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                credentials: 'omit',
                 body: JSON.stringify(this.state)
             }
-         
-            console.log('json send = ', requestOptions.body);
-    
-            fetch('https://passport.apptica.com/login', requestOptions)
+
+            const url = 'https://passport.apptica.com/login';
+             
+            fetch(url, requestOptions)
                 .then((response) => {
-                    console.log('response status = ', response.status);
+                    console.log('response = ', response.json());
                 })
                 .catch((error) => {
-                    console.log(error.message);
+                    console.log('error message = ', error.message);
                 })
         }
         
@@ -70,15 +72,19 @@ class Login extends Component {
             <div>
                 <Recaptcha
                     ref={e => this.recaptchaInstance = e}
-                    sitekey="6LdvTmAUAAAAACV_4T84JIBrM4ZbcPDMVna3zDDk"
+                    sitekey="6Ld_xSAUAAAAAI_L7ycY9w7XB135By2YOmX8m4du"
                     size="invisible"
                     verifyCallback={this.verifyCallback}
                 />
-                <form onSubmit={this.handleSubmit}>
-                    <input type="email" value={this.state.email} onChange={(e) => this.hundleInputChange('email', e)} placeholder="Email" />
-                    <input type="password" value={this.state.password} onChange={(e) => this.hundleInputChange('password', e)} placeholder="Password" />
-                    <input type="submit" value="Log in"/>            
-                </form>
+
+                { !store.getState().isLogged &&
+                    <form onSubmit={this.handleSubmit}>
+                        <input type="email" value={this.state.email} onChange={(e) => this.hundleInputChange('email', e)} placeholder="Email" />
+                        <input type="password" value={this.state.password} onChange={(e) => this.hundleInputChange('password', e)} placeholder="Password" />
+                        <input type="submit" value="Log in"/>            
+                    </form>
+                }
+
             </div>
         );
     }
