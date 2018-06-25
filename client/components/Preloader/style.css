@@ -1,0 +1,8 @@
+.preloader {
+    background: url('../../../assets/images/spinner.svg') center 150px no-repeat;
+    background-color: #fff;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+}
+  

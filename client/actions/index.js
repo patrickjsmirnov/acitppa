@@ -1,4 +1,4 @@
-import { LOGGED, SET_EMAIL, SET_PASSWORD, SET_GRECAPTCHA } from "../constants/action-types";
+import { LOGGED, SET_EMAIL, SET_PASSWORD, SET_GRECAPTCHA, SET_LOADING_DATA } from "../constants/action-types";
 
 export const logged = (isLogged) => ({
     type: LOGGED, 
@@ -18,4 +18,9 @@ export const setPassword = (password) => ({
 export const setGrecaptcha = (grecaptcha) => ({
     type: SET_GRECAPTCHA, 
     grecaptcha
+});
+
+export const setLoadingData = (loadingData) => ({
+    type: SET_LOADING_DATA, 
+    loadingData
 });

@@ -1,12 +1,10 @@
 import { LOGGED } from "../constants/action-types";
-import { SET_TOKEN, SET_EMAIL, SET_PASSWORD, SET_GRECAPTCHA } from "../constants/action-types";
+import { SET_TOKEN, SET_EMAIL, SET_PASSWORD, SET_GRECAPTCHA, SET_LOADING_DATA } from "../constants/action-types";
 
 
 const initialState = {
   isLogged: false,
-  email: '',
-  password: '',
-  grecaptcha: ''
+  loadingData: false
 };
 
 
@@ -20,6 +18,8 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, password: action.password };
     case SET_GRECAPTCHA:
         return { ...state, grecaptcha: action.grecaptcha };
+    case SET_LOADING_DATA:
+        return { ...state, loadingData: action.loadingData };
     default:
         return state;
   }
