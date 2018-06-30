@@ -2,6 +2,13 @@
     "extends": "airbnb",
     "parser": "babel-eslint",
     "rules": {
-      "func-names": ["error", "never"]
+      "func-names": ["error", "never"],
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+      "no-console": 0
+    },
+    "globals": {
+      "localStorage": true,
+      "fetch": true,
+      "document": true
     }
 }

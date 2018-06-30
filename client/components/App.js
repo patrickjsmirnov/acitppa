@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Main from './Main';
 import './base.css';
 
-class App extends Component {
-
-
-    render() {
-        return (
-            <div>
-                <Main />
-            </div>
-        )
-    }
-}
+const App = () => ({
+  render() {
+    return (
+      <div>
+        <Main />
+      </div>
+    );
+  },
+});
 
 export default App;

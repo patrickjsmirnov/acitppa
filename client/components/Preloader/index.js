@@ -1,24 +1,21 @@
-import React, {Component} from 'react';
-import { connect } from "react-redux";
-import store from "../../store";
-
+import React from 'react';
+import { connect } from 'react-redux';
 import './style.css';
 
-const mapStateToProps = state => {
-    return { loadingData: state.loadingData };
-};
+
+const mapStateToProps = state => ({ loadingData: state.loadingData });
 
 const ConnectedPreloader = (state) => {
-    if (!state.loadingData) {
-        return (
-            <div></div>
-        )
-    }
+  if (!state.loadingData) {
     return (
-    <div className="preloader"></div>
+      <div />
+    );
+  }
+  return (
+    <div className="preloader" />
   );
-}
+};
 
-const Preloader = connect(mapStateToProps)(ConnectedPreloader)
+const Preloader = connect(mapStateToProps)(ConnectedPreloader);
 
 export default Preloader;
