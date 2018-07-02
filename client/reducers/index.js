@@ -7,7 +7,6 @@ import {
 }
   from '../constants/action-types';
 
-
 const initialState = {
   isLogged: false,
   loadingData: false,
