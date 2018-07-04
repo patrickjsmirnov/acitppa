@@ -4,21 +4,16 @@ import store from '../../store';
 import {
   logged,
   setLoadingData,
+  setEmail,
+  setPassword,
+  setGrecaptcha,
 }
   from '../../actions';
 import Preloader from '../Preloader';
 import './style.css';
+import ContactForm from '../Form';
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-      grecaptcha: '',
-    };
-  }
-
   componentWillMount() {
     const token = localStorage.getItem('token');
     if (token) {
@@ -26,24 +21,27 @@ class Login extends Component {
     }
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = (values) => {
+    console.log('handleSubmit');
+    const { email, password } = values;
     store.dispatch(setLoadingData(true));
+    store.dispatch(setEmail(email));
+    store.dispatch(setPassword(password));
+
     this.recaptchaInstance.reset(); // should be removed in production
     this.recaptchaInstance.execute();
   }
 
-  hundleInputChange = (field, e) => {
-    if (field === 'email') {
-      this.setState({ email: e.target.value });
-      return;
-    }
-    this.setState({ password: e.target.value });
-  }
-
   verifyCallback = (grecaptchaResponse) => {
     if (grecaptchaResponse) {
-      this.setState({ grecaptcha: grecaptchaResponse });
+      store.dispatch(setGrecaptcha(grecaptchaResponse));
+
+      const { email, password, grecaptcha } = store.getState().data;
+      const requestData = {
+        email,
+        password,
+        grecaptcha,
+      };
 
       const requestOptions = {
         method: 'POST',
@@ -51,7 +49,7 @@ class Login extends Component {
         headers: {
           Accept: 'application/json',
         },
-        body: JSON.stringify(this.state),
+        body: JSON.stringify(requestData),
       };
 
       const requestUrl = 'https://passport.apptica.com/login';
@@ -77,8 +75,8 @@ class Login extends Component {
   }
 
   render() {
+    console.log('render login');
     const { isLogged } = store.getState();
-    const { email, password } = this.state;
     const loginNotification = (
       <div className="login-notification">
         You are logged in
@@ -88,7 +86,6 @@ class Login extends Component {
     return (
       <div>
         <Preloader />
-        { /* <LoginStatus isLogged={isLogged} loadingData={loadingData} /> */}
 
         <Recaptcha
           ref={(e) => { this.recaptchaInstance = e; }}
@@ -99,15 +96,7 @@ class Login extends Component {
 
         { isLogged && loginNotification }
 
-
-        { !isLogged && (
-          <form className="login-form" onSubmit={this.handleSubmit}>
-            <input className="login-input" type="email" value={email} onChange={e => this.hundleInputChange('email', e)} placeholder="Email" />
-            <input className="login-input" type="password" value={password} onChange={e => this.hundleInputChange('password', e)} placeholder="Password" />
-            <input className="login-btn" type="submit" value="Log in" />
-          </form>
-        )
-        }
+        <ContactForm onSubmit={this.handleSubmit} />
 
       </div>
     );

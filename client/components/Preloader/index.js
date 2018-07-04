@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import './style.css';
 
 
-const mapStateToProps = state => ({ loadingData: state.loadingData });
+const mapStateToProps = state => ({ loadingData: state.data.loadingData });
 
 const ConnectedPreloader = (state) => {
+  console.log(state);
   if (!state.loadingData) {
     return (
       <div />
