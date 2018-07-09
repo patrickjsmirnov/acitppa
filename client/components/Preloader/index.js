@@ -6,7 +6,7 @@ import './style.css';
 const mapStateToProps = state => ({ loadingData: state.data.loadingData });
 
 const ConnectedPreloader = (state) => {
-  console.log(state);
+  console.log('loader');
   if (!state.loadingData) {
     return (
       <div />
