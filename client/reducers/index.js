@@ -7,12 +7,16 @@ import {
   SET_EMAIL,
   SET_PASSWORD,
   SET_GRECAPTCHA,
+  REQUEST_TOKEN,
+  RECEIVE_TOKEN_SUCCESS,
+  RECEIVE_TOKEN_FAIL,
 }
   from '../constants/action-types';
 
 const initialState = {
-  isLogged: false,
-  loadingData: false,
+  isFetching: false,
+  token: '',
+  error: '',
   email: '',
   password: '',
   grecaptcha: '',
@@ -30,6 +34,22 @@ const mainReducer = (state = initialState, action) => {
       return { ...state, password: action.password };
     case SET_GRECAPTCHA:
       return { ...state, grecaptcha: action.grecaptcha };
+    case REQUEST_TOKEN:
+      return { ...state, isFetching: true };
+    case RECEIVE_TOKEN_SUCCESS:
+      return {
+        ...state,
+        token: action.token,
+        error: '',
+        isFetching: false,
+      };
+    case RECEIVE_TOKEN_FAIL:
+      return {
+        ...state,
+        token: '',
+        error: action.error,
+        isFetching: false,
+      };
     default:
       return state;
   }

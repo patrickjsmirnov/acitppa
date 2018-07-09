@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import Recaptcha from 'react-recaptcha';
 import store from '../../store';
+
 import {
   logged,
   setLoadingData,
   setEmail,
   setPassword,
   setGrecaptcha,
+  requestToken,
+  receiveToken,
+  fetchToken,
 }
   from '../../actions';
 import Preloader from '../Preloader';
@@ -24,7 +28,6 @@ class Login extends Component {
   handleSubmit = (values) => {
     console.log('handleSubmit');
     const { email, password } = values;
-    store.dispatch(setLoadingData(true));
     store.dispatch(setEmail(email));
     store.dispatch(setPassword(password));
 
@@ -52,31 +55,15 @@ class Login extends Component {
         body: JSON.stringify(requestData),
       };
 
+      console.log('fetch will be here');
       const requestUrl = 'https://passport.apptica.com/login';
 
-      fetch(requestUrl, requestOptions)
-        .then((response) => {
-          if (response.status >= 200 && response.status < 300) {
-            return Promise.resolve(response.json());
-          }
-          const error = new Error(response.statusText || response.status);
-          return Promise.reject(error);
-        })
-        .then((data) => {
-          store.dispatch(logged(true));
-          store.dispatch(setLoadingData(false));
-          localStorage.setItem('token', data); // should be inserted real token from data
-        })
-        .catch((error) => {
-          store.dispatch(setLoadingData(false));
-          console.log(error);
-        });
+      store.dispatch(fetchToken(requestUrl, requestOptions));
     }
   }
 
   render() {
-    console.log('render login');
-    const { isLogged } = store.getState();
+
     const loginNotification = (
       <div className="login-notification">
         You are logged in

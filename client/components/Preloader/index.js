@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import './style.css';
 
 
-const mapStateToProps = state => ({ loadingData: state.data.loadingData });
+const mapStateToProps = state => ({ isFetching: state.data.isFetching });
 
 const ConnectedPreloader = (state) => {
   console.log('loader');
-  if (!state.loadingData) {
+  console.log(state);
+  if (!state.isFetching) {
     return (
       <div />
     );
